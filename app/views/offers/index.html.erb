@@ -1,0 +1,44 @@
+<div class="container-fluid">
+  <%=render 'layouts/header'%>
+  <div class="row container-fluid">
+    <%=render 'layouts/basicInfo'%>
+    <div class="col container-fluid card">
+      <div class="container card-header">
+        <nav class="navbar navbar-light bg-faded">
+          <%=render 'frame/pestanasPrincipales', locals: {variable4: "active"}%>
+        </nav>
+      </div>
+
+      <div class="container card-body">
+        <% @offers.each do |offer| %>
+            <ul class="list-unstyled">
+              <li class="media">
+                <img width="250" height="280" class="d-flex mr-3" src=<%= offer.picture %> alt="card-img-top">
+
+                <div class="media-body">
+                  <h2 class="mt-0 mb-1"><%= offer.name %></h2>
+                  <%= offer.description %>
+                  <div>
+
+                    <% if Request.exists?(offer_id: offer.id, user_id: offer.user_id)%>
+
+                        <%=render 'frame/avisoSolicitar'%>
+
+                    <% else %>
+                         <%= link_to "Ver mas", frame_perfilPublico_url(:users => offer.user_id),:class => "btn btn-outline-primary float-right" %>
+
+
+                    <% end %>
+                  </div>
+
+                </div>
+              </li>
+            </ul>
+        <% end %>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+

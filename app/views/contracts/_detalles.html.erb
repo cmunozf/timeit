@@ -1,0 +1,134 @@
+<div class="container card-body">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="media-body">
+                <img width="400" height="400" class="d-flex mr-3" src=<%= @contract.offer.picture %>
+                    alt="Generic placeholder image">
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="media-body">
+                <h2 class="mt-0 mb-0"> <%= @contract.offer.name %></h2>
+                <h7 class="mt-0 mb-3"><%= @contract.offer.description %></h7>
+                <% if @contract.value != nil %>
+                    <h5 class="mt-0 mb-0">  Tiempo: </h5>
+                    <h7 class="mt-0 mb-3"> <%= @contract.value %><%=" "%> horas </h7>
+                    <h5 class="mt-0 mb-0"> Comentarios: </h5>
+                    <h7 class="mt-0 mb-3"> <%= @contract.comments %></h7>
+                    
+                <%else%>
+                    <h5 class="mt-0 mb-0"> Tiempo: </h5>
+                    <h7 class="mt-0 mb-3"> Por definir </h7>
+                    <h5 class="mt-0 mb-0"> Comentarios: </h5>
+                    <h7 class="mt-0 mb-3"> Por definir</h7>
+                <%end%>
+                <div class="btn-group">
+                <% if @contract.state == nil%>
+                    <td><%= link_to 'Eliminar', @contract, 
+                        method: :delete, data: { confirm: '¿Estas seguro?' },
+                        :class => "btn btn-outline-primary float-right" %></td>
+                    <% if @contract.user_id == current_user.id%>
+                        <button type="button" class="btn btn-outline-primary float-right"
+                        data-toggle="modal" data-target="#hacerContrato">Hacer contrato</button>
+                    <%else%>
+                        <% @variable = 'Debes esperar a que tu cliente llene el formulario'%>
+                        <button type="button" class="btn btn-outline-primary float-right"
+                        data-toggle="modal" data-target="#info">Información</button>
+                    <%end%>
+                <% elsif @contract.state == 0 %>
+                    <% if @contract.user_id == current_user.id%>
+                        <% @variable = 'Debes esperar que la otra persona acepte'%>
+                        <button type="button" class="btn btn-outline-primary float-right"
+                        data-toggle="modal" data-target="#info">Información</button>
+                    <%else%>
+                        <td><%= link_to 'Rechazar', contract, 
+                            method: :delete, data: { confirm: '¿Estás seguro?' },
+                            :class => "btn btn-outline-primary float-right" %></td>
+                        <td><%=link_to "Aceptar",{ :controller => "contracts", :action => "aceptar", 
+                            :id => @contract.id},:class => "btn btn-outline-primary float-right" %></td>
+                    <%end%>
+                <% elsif @contract.state == 1 %>
+                    <% if @contract.user_id != current_user.id%>
+                        <td><%=link_to "Reclamar tiempo",{ :controller => "contracts", :action => "finalizando", 
+                            :id => @contract.id},:class => "btn btn-outline-primary float-right" %></td>
+                        <% @variable = 'Ya esta listo el contrato, cuando realices el servicio
+                             podras reclamar tu tiempo'%>
+                        <button type="button" class="btn btn-outline-primary float-right"
+                        data-toggle="modal" data-target="#info">Información</button>  
+                    <%else%>
+                        <% @variable = 'Ya esta listo el contrato, ahora cuando 
+                            el servicio se realice la otra persona te reclamará su tiempo'%>
+                        <button type="button" class="btn btn-outline-primary float-right"
+                        data-toggle="modal" data-target="#info">Información</button>    
+                    <%end%>
+                    <td><%= link_to 'Cancelar', contract, 
+                        method: :delete, data: { confirm: '¿Estás seguro?' },
+                        :class => "btn btn-outline-primary float-right" %></td>
+
+                <% elsif @contract.state == 2 %>
+                    <% if @contract.user_id == current_user.id%>
+                        <td><%=link_to "Pagar",{ :controller => "contracts", :action => "finalizando", 
+                            :id => @contract.id},:class => "btn btn-outline-primary float-right" %></td>
+                    <%else%>
+                        <% @variable = 'Espera que la otra persona confirme el pago'%>
+                        <button type="button" class="btn btn-outline-primary float-right"
+                        data-toggle="modal" data-target="#info">Información</button>    
+                    <%end%>
+                <%elsif @contract.state == 3 %>
+                    <%if @contract.user_id == current_user.id     %>
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#calification">Calificar</button>
+                    <%end%>
+                <%end%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="hacerContrato" data-target="#hacerContrato" 
+    tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	        <div class="modal-header">
+		        <h5 class="modal-title" id="exampleModalLabel">Contrato</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	            	<span aria-hidden="true">&times;</span>
+		        </button>
+			</div>
+			<div class="modal-body">
+				<%= render "form2", contract: @contract%>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="info" data-target="#info" 
+    tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h7 class="mt-0 mb-3"> <%= @variable %></h7>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="calification" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Calificar</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+          <div class="modal-body">
+            <%= render "califications/form", calification: Calification.new, contract: @contract%>
+          </div> 
+      </div>
+    </div>
+</div>

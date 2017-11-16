@@ -1,0 +1,54 @@
+<div align="center"
+<%= form_with(model: calification, local: true) do |form| %>
+<% if calification.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(calification.errors.count, "error") %> prohibited this calification from being saved:</h2>
+
+    <ul>
+    <% calification.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %> 
+
+
+
+<div align="center">
+
+<img style="max-width:130px" class="rounded-circle img-fluid d-block mx-auto" src= <%=@contract.offer.user.photo%>  >
+
+
+</div>
+
+
+
+
+<a href='/califications/uno?value=1&user_id=<%=@contract.offer.user_id%>'>
+  <button type="link" class="btn btn-outline-secondary">
+      <img id='star1' style="min-width:30px" src="../../../star-on.png">
+  </button>
+</a>
+<a href='/califications/uno?value=2&user_id=<%=@contract.offer.user_id%>'>
+  <button type="link" class="btn btn-outline-secondary">
+      <img id='star1' style="min-width:30px" src="../../../star-on.png">
+  </button>
+</a>
+<a href='/califications/uno?value=3&user_id=<%=@contract.offer.user_id%>'>
+  <button type="link" class="btn btn-outline-secondary">
+      <img id='star1' style="min-width:30px" src="../../../star-on.png">
+  </button>
+</a>
+<a href='/califications/uno?value=4&user_id=<%=@contract.offer.user_id%>'>
+  <button type="link" class="btn btn-outline-secondary">
+      <img id='star1' style="min-width:30px" src="../../../star-on.png">
+  </button>
+</a>
+<a href='/califications/uno?value=1&user_id=<%=@contract.offer.user_id%>'>
+  <button type="link" class="btn btn-outline-secondary">
+      <img id='star1' style="min-width:30px" src="../../../star-on.png">
+  </button>
+</a>
+
+<% end %>
+</div>

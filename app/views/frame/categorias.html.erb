@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <%=render 'layouts/header'%>
+  <div class="row container-fluid">
+    <%=render 'layouts/basicInfo'%>
+    <div class="col container-fluid card">
+      <div class="container card-header">
+        <nav class="navbar navbar-light bg-faded">
+          <%=render 'pestanasPrincipales', locals: {variable3: "active"}%>
+        </nav>
+      </div>
+      <div class="container card-body">
+
+        <div class="row">
+          <% @categories.each do |category| %>
+              <div class="col-lg-3 col-sm-6 text-center mb-4">
+                <img width="160" height="160"  class="rounded-circle img-fluid d-block mx-auto" src =<%=category.imagen%> alt>
+                <a class=".btn-link" href=<%=frame_verOfertas_path(:cate => category.id)%> >
+                  <%=category.name%>
+                </a>
+              </div>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

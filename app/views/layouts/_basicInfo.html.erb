@@ -1,0 +1,78 @@
+<div class="card col-3 ">
+  <img class="card-img-top" width="200" height="200" src= <%=current_user.photo%> height="250" width="250" >
+  <div align="center"
+  <%if Calification.where(user_id: current_user.id).average("value") === nil%>
+  <li class="list-group-item">
+    
+    <img style="min-width:30px", src= "../../../star-off.png">
+    <img style="min-width:30px", src= "../../../star-off.png">
+    <img style="min-width:30px", src= "../../../star-off.png">
+    <img style="min-width:30px", src= "../../../star-off.png">
+    <img style="min-width:30px", src= "../../../star-off.png">
+  </li>
+  <%else%>
+    <li class="list-group-item">
+      
+      <% if Calification.where(user_id: current_user.id ).average("value").round(0) === 1%>
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <%end%>
+      <% if Calification.where(user_id: current_user.id ).average("value").round(0) === 2%>
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <%end%>
+      <% if Calification.where(user_id: current_user.id ).average("value").round(0) === 3%>
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <%end%>
+      <% if Calification.where(user_id: current_user.id ).average("value").round(0) === 4%>
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-off.png">
+      <%end%>   
+      <% if Calification.where(user_id: current_user.id ).average("value").round(0) === 5%>
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <img style="min-width:30px", src= "../../../star-on.png">
+      <%end%>  
+    </li>
+    <%end%>
+  </div>
+
+  <font size="5"><center><%=current_user.firstName%> <%=current_user.firstLastName%></center></font>
+
+  <ul class="list-group list-group-flush">
+     
+    <li class="list-group-item"><strong>Tiempo: </strong><%=current_user.time%></li>
+    <li class="list-group-item"><strong>Cedula: </strong><%=current_user.idd%></li>
+
+    <li class="list-group-item"><strong>Ubicacion: </strong><%=current_user.location%></li>
+    <%if current_user.verified %>
+      <li class="list-group-item"><strong>Estado</strong>: Verificado </li>
+
+      <%else%>
+        <li class="list-group-item"><strong>Estado: </strong>No verificado </li>
+    <%end%>
+  </ul>
+  <div class="card-body">
+   
+    <% if current_user %>
+    <% else %>
+      <%= link_to 'Login', new_user_session_path %>
+    <% end %>
+
+  </div>
+</div>

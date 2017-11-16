@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <%=render 'layouts/header'%>
+<div class="row container-fluid">
+  <%=render 'layouts/basicInfo'%>
+
+  <div class="col container-fluid card">
+	    <div class="container card-header">
+		  	<nav class="navbar navbar-light bg-faded">
+		  		<%=render 'pestanasPrincipales', locals: {variable6: "active"}%>
+			</nav>	 
+	  	</div>
+
+			<div class="container card-body">
+					
+						<table class="table table-hover">
+						<thead>
+							<tr>
+								<th> # </th>
+								<th>Demandante</th>
+								<th>Oferente</th>
+								<th>Servicio</th>
+								<th>Costo del Servicio</th>
+							</tr>
+						</thead>
+						<tbody>		   
+			
+							<tr>
+								<% @num = 0 %>		       			  
+								<% @transaccion.each do |transaccion| %>
+										<% @num = @num + 1%>
+										<th scope="row"> <%= @num %> </th>
+										<td> <%= current_user.firstName %> </td>
+										<td> <%=transaccion.offer.user.firstName %> </td>
+										<td> <%=transaccion.offer.name %> </td>
+										<td> <%= transaccion.value%> </td>
+								<% end %>
+							</tr>	  
+							
+						</tbody>
+					</table> 
+			
+					</div>
+				</div>
+			
+			</div>
+			
+			</div>

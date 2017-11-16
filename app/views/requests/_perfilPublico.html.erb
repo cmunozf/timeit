@@ -1,0 +1,91 @@
+<div class="card col-3 ">
+    <div align="center">
+  <%@ver_perfil_publico.each do |usuario| %>
+      <img class="card-img-top" src= <%=usuario.photo%> height="250" width="250" >
+  
+  
+      <%if Calification.where(user_id: usuario.id).average("value") === nil%>
+      <li class="list-group-item">
+        
+        <img style="min-width:30px", src= "../../../star-off.png">
+        <img style="min-width:30px", src= "../../../star-off.png">
+        <img style="min-width:30px", src= "../../../star-off.png">
+        <img style="min-width:30px", src= "../../../star-off.png">
+        <img style="min-width:30px", src= "../../../star-off.png">
+      </li>
+      <%else%>
+        <li class="list-group-item">
+          
+          <% if Calification.where(user_id: usuario.id ).average("value").round(0) === 1%>
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <%end%>
+          <% if Calification.where(user_id: usuario.id ).average("value").round(0) === 2%>
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <%end%>
+          <% if Calification.where(user_id: usuario.id ).average("value").round(0) === 3%>
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <%end%>
+          <% if Calification.where(user_id: usuario.id ).average("value").round(0) === 4%>
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-off.png">
+          <%end%>   
+          <% if Calification.where(user_id: usuario.id ).average("value").round(0) === 5%>
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <img style="min-width:30px", src= "../../../star-on.png">
+          <%end%>  
+        </li>
+        <%end%>
+  
+  
+  
+  
+      <%end%>
+  
+
+
+    </div>
+
+
+    <%@ver_perfil_publico.each do |usuario| %>
+        <font size="5"><center><%=usuario.firstName%> <%=usuario.firstLastName%></center></font>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Ubicación: </strong><%=usuario.location%></li>
+          <%if locals[:contrato] == 1%>
+            <li class="list-group-item"><strong>Celular: </strong><%=usuario.cel%></li>
+            <li class="list-group-item"><strong>Telefono: </strong><%=usuario.tel%></li>
+          <%end%>
+          <li class="list-group-item"><strong>Descridpción: </strong><%=usuario.description%></li>
+        </ul>
+    <%end%>
+
+  <div class="card-body">
+    <% if current_user %>
+      <%if locals[:variable] == 1%>
+        <%@ver_perfil_publico.each do |usuario| %>
+          <%= link_to 'Ver perfil', frame_perfilPublicoCompleto_url(:users => usuario.id),
+            :class => "btn btn-outline-primary" %>
+        <%end%>
+      <%end%>
+    <% else %>
+      <%= link_to 'Login', new_user_session_path %>
+    <% end %>
+  </div>
+</div>
